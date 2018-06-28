@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="featext" default="main" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns="antlib:org.apache.tools.ant">
+	<property name="ivy.install.version" value="2.3.0" />
+	<property name="ivy.home" value="${user.home}/.ant" />
+	<property name="ivy.jar.dir" value="${ivy.home}/lib" />
+	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+	<property name="src.dir" value="src/java/src" />
+
+	<property name="build.dir" value="src/build" />
+	<property name="classes.dir" value="${build.dir}/java/classes" />
+	<property name="jar.dir" value="${build.dir}/java/jar" />
+
+	<property name="lib.dir" value="src/java/lib" />
+
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+		<fileset dir="${build.dir}" includes="**/*.jar" />
+	</path>
+
+	<!--<property name="main-class" value="edu.umich.eecs.featext.WikiPage" />-->
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivy.jar.dir}/ivy.jar" />
+
+	<target name="init-ivy" depends="download-ivy">
+		<ivy:settings file="${basedir}/ivysettings.xml" />
+		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[type]-[revision].[ext]" />
+	</target>
+
+	<target name="download-ivy">
+		<mkdir dir="${ivy.jar.dir}" />
+		<get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" dest="${ivy.jar.file}" usetimestamp="true" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="compile" depends="init-ivy">
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" debug="on" debuglevel="lines,vars,source" />
+<!--
+        <copy todir="${classes.dir}">
+            <fileset dir="${src.dir}" />
+        </copy>
+ -->
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${jar.dir}" />
+		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+        <!--
+			<manifest>
+				<attribute name="Main-Class" value="${main-class}" />
+			</manifest>
+         -->
+		</jar>
+	</target>
+
+	<target name="run" depends="jar">
+		<java fork="true" dir="${user.dir}/../" classname="${main-class}">
+			<env key="WEKA_HOME" value="${lib.dir}/weka" />
+			<classpath>
+				<path refid="classpath" />
+				<path location="${jar.dir}/${ant.project.name}.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="runIndex" depends="jar">
+		<java fork="true" dir="../" classname="edu.umich.eecs.featext.WikiIndexer">
+			<env key="WEKA_HOME" value="${lib.dir}/weka" />
+			<classpath>
+				<path refid="classpath" />
+				<path location="${jar.dir}/${ant.project.name}.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="runLearn" depends="jar">
+		<java fork="true" dir="../" classname="edu.umich.eecs.featext.Learner">
+			<classpath>
+				<path refid="classpath" />
+				<path location="${jar.dir}/${ant.project.name}.jar" />
+			</classpath>
+		</java>
+	</target>
+
+  <target name="classpath">
+    <property name="myclasspath" refid="classpath"/>
+    <echo message="${myclasspath}"/>
+  </target>
+
+	<target name="clean-build" depends="clean,jar" />
+
+	<target name="main" depends="clean,jar" />
+</project>

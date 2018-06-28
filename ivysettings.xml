@@ -1,0 +1,21 @@
+<ivysettings>
+    <settings defaultResolver="local-chain"/>
+    <resolvers>
+        <ibiblio name="ibiblio-maven2" m2compatible="true"/>
+        <ibiblio name="java-net-maven2" root="http://download.java.net/maven/2/" m2compatible="true" />
+        <ibiblio name="maven" root="http://mvnrepository.com/artifact/" m2compatible="true" />
+        <url name="other-maven" m2compatible="true">
+  			<artifact pattern="http://repo1.maven.org/maven2/org/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+		</url>
+		<url name="oracle" m2compatible="true">
+  			<artifact pattern="http://download.oracle.com/maven/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+		</url>
+        <chain name="local-chain">
+            <resolver ref="maven"/>
+            <resolver ref="ibiblio-maven2"/>
+            <resolver ref="java-net-maven2"/>
+            <resolver ref="other-maven"/>
+            <resolver ref="oracle"/>
+        </chain>
+    </resolvers>
+</ivysettings>

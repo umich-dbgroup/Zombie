@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="./config/ivy/ivy-doc.xsl"?>
+<ivy-module version="2.0">
+    <info organisation="edu.umich.eecs" module="featext"/>
+    <dependencies>
+        <dependency org="mysql" name="mysql-connector-java" rev="5.1.6"/>
+        <dependency org="de.l3s.boilerpipe" name="boilerpipe" rev="1.1.0"/>
+        <dependency org="xerces" name="xercesImpl" rev="2.11.0"/>
+        <dependency org="net.sourceforge.nekohtml" name="nekohtml" rev="1.9.18"/>
+        <dependency org="org.jsoup" name="jsoup" rev="1.7.2"/>                
+        <dependency org="org.json" name="org.json" rev="chargebee-1.0"/>        
+        <dependency org="org.apache.commons" name="commons-lang3" rev="3.0"/>
+        <dependency org="nz.ac.waikato.cms.weka" name="weka-dev" rev="3.7.6"/>
+        <dependency org="org.apache.hadoop" name="hadoop-core" rev="1.1.2"/>
+        <dependency org="org.apache.avro" name="avro" rev="1.7.4"/>        
+        <dependency org="xerial" name="sqlite-jdbc" rev="3.7.2"/>
+        <dependency org="com.sleepycat" name="je" rev="5.0.73"/>
+        <dependency org="de.bwaldvogel" name="liblinear" rev="1.92"/>
+        <dependency org="com.google.guava" name="guava" rev="14.0.1" />
+        <dependency org="org.jblas" name="jblas" rev="1.2.3"/>
+        <dependency org="xalan" name="xalan" rev="2.7.1"/>
+        <dependency org="com.googlecode.efficient-java-matrix-library" name="ejml" rev="0.24"/>
+        <dependency org="org.apache.commons" name="commons-math3" rev="3.0"/>
+    </dependencies>
+</ivy-module>
